@@ -144,24 +144,6 @@ class Info(commands.Cog):
         )
         await msg.edit(content="⏳ Loading....", embed=embed)
 
-    @commands.command(
-        name="randomfact",
-        description="Get a random fact from the internet."
-    )
-    async def randomfact(self, ctx):
-        url = f"https://useless-facts.sameerkumar.website/api"
-        async with ClientSession() as session:
-            async with session.get(url) as response:
-                r = await response.json()
-                fact = r["data"]
-                embed = discord.Embed(
-                    colour=ctx.author.colour, timestamp=ctx.message.created_at
-                )
-                embed.add_field(name="**Fun Fact**", value=fact, inline=False)
-                embed.set_footer(text=f"Requested by {ctx.message.author}")
-                await ctx.send(embed=embed)
-
-
 def setup(client):
     client.add_cog(Info(client))
     print("Info is loaded")
