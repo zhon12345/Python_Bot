@@ -16,11 +16,10 @@ class Misc(commands.Cog):
     @commands.command(
         name="avatar",
         description="Get the avatar of the message author or a specified user.",
-        usage="avatar (member)",
+        usage="avatar [member]",
         aliases=["av", "icon", "pfp"],
     )
     async def avatar(self, ctx, member: discord.Member = None):
-
         member = ctx.author if not member else member
 
         e = discord.Embed(

@@ -14,6 +14,18 @@ class Owner(commands.Cog):
     # •-----------Commands----------•#
 
     @commands.command(
+        name="shutdown",
+        description="Closes connection between discord and shuts the bot down.",
+        usage="shutdown",
+    )
+    async def shutdown(self, ctx):
+        if ctx.author.id != self.client.owner_id:
+            return
+
+        await ctx.send('⚙ Shutting down...')
+        await self.client.logout()
+
+    @commands.command(
         name="dm",
         description="Direct message a specified user as the bot.",
         aliases=["message"],

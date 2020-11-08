@@ -35,12 +35,14 @@ class Fun(commands.Cog):
     @commands.command(
         name="rate",
         description="How high are you on the ratings?",
-        usage='rate'
+        usage='rate [user]'
     )
-    async def rate(self, ctx):
+    async def rate(self, ctx, member: discord.Member = None):
+        member = ctx.author if not member else member
+
         rate_amount = random.randint(1, 100)
         await ctx.send(
-            f"I'd rate **{ctx.author.name}** a **{round(rate_amount, 4)} / 100**"
+            f"I'd rate **{member}** a **{round(rate_amount, 4)} / 100**"
         )
         return
 
@@ -88,12 +90,10 @@ class Fun(commands.Cog):
     @commands.command(
         name="roast",
         description="Sick of someone? Easy! Just roast them!",
-        usage="roast <member>",
+        usage="roast [member]",
     )
     async def roast(self, ctx, member: discord.Member = None):
-        if not member:
-            await ctx.send("<:vError:725270799124004934> Please provide a valid user.")
-            return
+        member = ctx.author if not member else member
 
         url = "https://evilinsult.com/generate_insult.php?lang=en&type=json"
 
@@ -189,9 +189,9 @@ class Fun(commands.Cog):
         aliases=["ask"],
         usage="8ball <question>"
     )
-    async def eightball(self, ctx, msg=None):
+    async def eightball(self, ctx, *, msg: str = None):
         if not msg:
-            await ctx.send("<:vError:725270799124004934> Please provide a valid user.")
+            await ctx.send("<:vError:725270799124004934> Please provide a valid question.")
             return
 
         responses = [
@@ -227,6 +227,7 @@ class Fun(commands.Cog):
 
     @commands.command(
         name="dice",
+        category="fun",
         description="Roll a dice and get a random number from 1 - 6.",
         aliases=["diceroll", "roll"],
         usage="dice"

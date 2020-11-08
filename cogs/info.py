@@ -35,6 +35,7 @@ class Info(commands.Cog):
     @commands.command(
         name="about",
         description="Returns the bot's about page.",
+        usage="about"
     )
     async def about(self, ctx):
         embed = discord.Embed(
@@ -56,22 +57,25 @@ class Info(commands.Cog):
     @commands.command(
         name="help",
         description="Returns the help page!",
-        aliases=["commands", "command"],
-        usage="cog",
+        aliases=["commands"],
+        usage="help [command]"
     )
-    async def help(self, ctx, cog="all"):
-        help_embed = discord.Embed(
-            title=f"{self.client.user.name}'s Commands",
-            description=f"This server's prefix is `{self.client.command_prefix}`.",
-            color=0x3498DB,
-            timestamp=datetime.utcnow(),
+    async def help(self, ctx: commands.Context, *, cmd=""):
+        cmd = cmd.lower().strip()
+        command = next(
+            (c for c in self.client.commands if cmd == c.name or cmd in c.aliases), None
         )
-        help_embed.set_footer(
-            text=f"Requested by {ctx.message.author.name}",
-        )
-
-        cogs = [c for c in self.client.cogs.keys()]
-        if cog == "all":
+        if not command:
+            embed = discord.Embed(
+                title=f"{self.client.user.name}'s Commands",
+                description=f"This server's prefix is `{self.client.command_prefix}`.\nFor more info on a specific command, type`{self.client.command_prefix}help <command>`.",
+                color=0x3498DB,
+                timestamp=datetime.utcnow(),
+            )
+            embed.set_footer(
+                text=f"Requested by {ctx.message.author.name}",
+            )
+            cogs = [c for c in self.client.cogs.keys()]
             for cog in cogs:
                 cog_commands = self.client.get_cog(cog).get_commands()
                 commands_list = ""
@@ -79,46 +83,27 @@ class Info(commands.Cog):
                 for comm in cog_commands:
                     commands_list += f"`{comm.name}` "
 
-                help_embed.add_field(name=cog, value=commands_list, inline=False)
-            pass
+                embed.add_field(name=f'{cog} ({len(cog_commands)})', value=commands_list, inline=False)
+
+            await ctx.send(embed=embed)
         else:
-            lower_cogs = [c.lower() for c in cogs]
-            if cog.lower() in lower_cogs:
-                commands_list = self.client.get_cog(
-                    cogs[lower_cogs.index(cog.lower())]
-                ).get_commands()
-                help_text = ""
+            embed = discord.Embed(
+                title=f"Information for {command.name} command",
+                description=f"**❯ Name:** {command.name}\n**❯ Category:** {command.cog_name}\n**❯ Description:** {command.description}\n**❯ Usage:** {self.client.command_prefix}{command.usage}\n**❯ Aliases:** `{'`, `'.join(command.aliases) if command.aliases else '`None`'}`",
+                color=0x3498DB,
+                timestamp=datetime.utcnow(),
+            )
+            embed.set_footer(
+                text="Syntax: <> = required, [] = optional",
+                icon_url=self.client.user.avatar_url
+            )
 
-                for command in commands_list:
-                    help_text += (
-                        f"```{command.name}```\n" f"**{command.description}**\n\n"
-                    )
-
-                    if len(command.aliases) > 0:
-                        help_text += (
-                            f'**Aliases:** `{"`, `".join(command.aliases)}`\n\n'
-                        )
-                    else:
-                        help_text += "\n"
-
-                    help_text += (
-                        f"**Usage:** `{self.client.command_prefix}"
-                        f'{command.usage if command.usage is not None else "`None`"}`\n\n'
-                    )
-
-                help_embed.description = help_text
-            else:
-                await ctx.send(
-                    "Invalid cog specified.\nUse `help` command to list all cogs."
-                )
-                return
-
-        await ctx.send(embed=help_embed)
-        return
+            await ctx.send(embed=embed)
 
     @commands.command(
         name="uptime",
-        pass_context=True,
+        description="Displays the bot's uptime",
+        usage="uptime"
     )
     async def uptime(self, ctx):
         msg = await ctx.send("⏳ Loading....")
