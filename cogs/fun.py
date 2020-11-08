@@ -23,6 +23,7 @@ class Fun(commands.Cog):
         name="coinflip",
         description="Heads or Tails?",
         aliases=["cf"],
+        usage="coinflip"
     )
     async def coinflip(self, ctx):
         coinsides = ["Heads", "Tails"]
@@ -34,9 +35,9 @@ class Fun(commands.Cog):
     @commands.command(
         name="rate",
         description="How high are you on the ratings?",
+        usage='rate'
     )
     async def rate(self, ctx):
-        """ Rates what you desire """
         rate_amount = random.randint(1, 100)
         await ctx.send(
             f"I'd rate **{ctx.author.name}** a **{round(rate_amount, 4)} / 100**"
@@ -47,6 +48,7 @@ class Fun(commands.Cog):
         name="slots",
         description="How lucky are you? Play slots to find out.",
         aliases=["slotmachine", "bet"],
+        usage="slots"
     )
     async def slot(self, ctx):
         emojis = "🍎🍊🍐🍋🍉🍇🍓🍒"
@@ -68,7 +70,7 @@ class Fun(commands.Cog):
         description="Generate clapified :clap: text :clap:",
         usage="clap <text>",
     )
-    async def clap(self, ctx, msg=None):
+    async def clap(self, ctx, *, msg=None):
         if not msg:
             await ctx.send("<:vError:725270799124004934> Please provide valid text.")
             return
@@ -185,6 +187,7 @@ class Fun(commands.Cog):
         name="8ball",
         description="Ask the magic 8-ball for an answer.",
         aliases=["ask"],
+        usage="8ball <question>"
     )
     async def eightball(self, ctx, msg=None):
         if not msg:
@@ -225,14 +228,14 @@ class Fun(commands.Cog):
     @commands.command(
         name="dice",
         description="Roll a dice and get a random number from 1 - 6.",
-        aliases=["diceroll", "roll"]
+        aliases=["diceroll", "roll"],
+        usage="dice"
     )
     async def dice(self, ctx):
         dice = random.randint(1, 6)
-        await ctx.send(
-            f"**{ctx.author.name}** rolled a dice and got **{dice}**!"
-        )
+        await ctx.send(f"**{ctx.author.name}** rolled a dice and got **{dice}**!")
         return
+
 
 def setup(client):
     client.add_cog(Fun(client))

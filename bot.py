@@ -1,17 +1,18 @@
 import os
 import json
 import discord
+from functions import get
 from discord.ext import commands
 
+config = get("config.json")
+
 client = commands.Bot(
-    command_prefix="?>",
-    owner_id=450846017890549761,
+    command_prefix=config.prefix,
+    owner_id=config.owner_id,
     case_insensitive=True,
     help_command=None,
+    intents=discord.Intents(guilds=True, members=True, messages=True, reactions=True),
 )
-config = json.load(open("config.json"))
-client.config_token = config["token"]
-
 
 @client.event
 async def on_ready():
@@ -25,4 +26,4 @@ async def on_ready():
             client.load_extension(f"cogs.{extensions[:-3]}")
 
 
-client.run(client.config_token)
+client.run(config.token)

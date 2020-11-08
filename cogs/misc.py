@@ -36,7 +36,8 @@ class Misc(commands.Cog):
 
     @commands.command(
         name="randomfact",
-        description="Get a random fact from the internet."
+        description="Get a random fact from the internet.",
+        usage="randomfact"
     )
     async def randomfact(self, ctx):
         url = f"https://useless-facts.sameerkumar.website/api"
@@ -53,7 +54,8 @@ class Misc(commands.Cog):
     
     @commands.command(
         name="embed",
-        description="Get a example embed."
+        description="Get a example embed.",
+        usage="embed"
     )
     async def embed(self, ctx):
         embed = discord.Embed(
