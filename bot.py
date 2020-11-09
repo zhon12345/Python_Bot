@@ -1,6 +1,4 @@
-import os
-import json
-import discord
+import os, json, discord
 from functions import get
 from discord.ext import commands
 
@@ -11,7 +9,7 @@ client = commands.Bot(
     owner_id=config.owner_id,
     case_insensitive=True,
     help_command=None,
-    intents=discord.Intents(guilds=True, members=True, messages=True, reactions=True),
+    intents=discord.Intents.all(),
 )
 
 @client.event

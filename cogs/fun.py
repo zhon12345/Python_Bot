@@ -37,8 +37,8 @@ class Fun(commands.Cog):
         description="How high are you on the ratings?",
         usage='rate [user]'
     )
-    async def rate(self, ctx, member: discord.Member = None):
-        member = ctx.author if not member else member
+    async def rate(self, ctx, member: discord.Member = None, *, msg=None):
+        member =  member if member else self.client.fetch_user(msg) if member else ctx.author
 
         rate_amount = random.randint(1, 100)
         await ctx.send(
@@ -92,8 +92,8 @@ class Fun(commands.Cog):
         description="Sick of someone? Easy! Just roast them!",
         usage="roast [member]",
     )
-    async def roast(self, ctx, member: discord.Member = None):
-        member = ctx.author if not member else member
+    async def roast(self, ctx, member: discord.Member = None, *, msg=None):
+        member =  member if member else self.client.fetch_user(msg) if member else ctx.author
 
         url = "https://evilinsult.com/generate_insult.php?lang=en&type=json"
 

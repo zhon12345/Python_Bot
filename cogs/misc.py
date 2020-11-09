@@ -19,8 +19,8 @@ class Misc(commands.Cog):
         usage="avatar [member]",
         aliases=["av", "icon", "pfp"],
     )
-    async def avatar(self, ctx, member: discord.Member = None):
-        member = ctx.author if not member else member
+    async def avatar(self, ctx, member: discord.Member = None, *, msg=None):
+        member =  member if member else self.client.fetch_user(msg) if member else ctx.author
 
         e = discord.Embed(
             title=f"{member}'s Avatar",
