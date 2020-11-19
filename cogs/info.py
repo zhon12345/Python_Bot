@@ -138,28 +138,25 @@ class Info(commands.Cog):
         embed.set_thumbnail(url=self.client.user.avatar_url)
         embed.add_field(
             name="<:documents:773950876347793449> General ❯",
-            value=f"> **\\👑 Owner: `{await self.client.fetch_user(self.client.owner_id)}`**\n"
+            value=f"> **<:card:773965449402646549> Bot Name: `{self.client.user}`**\n"
+            f"> **\\📇 Bot ID: `{self.client.id}`**\n"
+            f"> **\\👑 Owner: `{await self.client.fetch_user(self.client.owner_id)}`**\n"
             f"> **\\🌐 Servers: `{len(self.client.guilds)}` Servers**\n"
             f"> **\\👥 Users: `{len(self.client.users)}` Users**\n"
             f"> **\\📺 Channels: `{len(channels)}` Channels**\n"
             f"> **\\💬 Commands: `{len([x.name for x in self.client.commands])}` Commands**\n"
+            f"> **\\📅 Created: `{self.client.user.created_at.strftime('%B %d %Y, %X')}` | `{(datetime.utcnow() - self.client.user.created_at).days}` day(s) ago**\n"
             "\u200b",
             inline=False,
         )
         embed.add_field(
             name="<:documents:773950876347793449> System ❯",
-            value=f"> **<:python:775179429940559912> Python: `v{platform.python_version()}`**\n"
+            value=f"> **<:online:745651877382717560> Uptime: {parseDur(start_time)}**\n"
+            f"> **<:python:775179429940559912> Python: `v{platform.python_version()}`**\n"
             f"> **<:discordpy:775222608412278784> Discord.py: `v{discord.__version__}`**\n"
             f"> **\\🖥 Platform: `{platform.system()}`**\n"
             f"> **\\📊 Memory: `{self.process.memory_full_info().rss / 1024**2:.2f} MB Used`**\n"
-            f"> **\\💻 CPU: `{get_cpu_info()['brand_raw']}`**\n"
-            "\u200b",
-            inline=False,
-        )
-        embed.add_field(
-            name="<:documents:773950876347793449> Othes ❯",
-            value=f"> **<:online:745651877382717560> Uptime: {parseDur(start_time)}**\n"
-            f"> **\\📅 Created: `{self.client.user.created_at.strftime('%B %d %Y, %X')}` | `{(datetime.utcnow() - self.client.user.created_at).days}` day(s) ago**\n",
+            f"> **\\💻 CPU: `{get_cpu_info()['brand_raw']}`**\n",
             inline=False,
         )
         embed.set_footer(
