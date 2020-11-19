@@ -1,12 +1,14 @@
-import os, json, discord
-from functions import get
+import os, discord
+from pathlib import Path
+from dotenv import load_dotenv
 from discord.ext import commands
 
-config = get("config.json")
+env_path = Path('.') / '.env'
+load_dotenv(dotenv_path=env_path)
 
 client = commands.Bot(
-    command_prefix=config.prefix,
-    owner_id=config.owner_id,
+    command_prefix=os.getenv('BOT_PREFIX'),
+    owner_id=os.getenv('BOT_OWNER'),
     case_insensitive=True,
     help_command=None,
     intents=discord.Intents.all(),
@@ -23,5 +25,4 @@ async def on_ready():
         if extensions.endswith(".py"):
             client.load_extension(f"cogs.{extensions[:-3]}")
 
-
-client.run(config.token)
+client.run(os.getenv('BOT_TOKEN'))
