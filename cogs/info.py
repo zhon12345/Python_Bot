@@ -139,7 +139,7 @@ class Info(commands.Cog):
         embed.add_field(
             name="<:documents:773950876347793449> General ❯",
             value=f"> **<:card:773965449402646549> Bot Name: `{self.client.user}`**\n"
-            f"> **\\📇 Bot ID: `{self.client.id}`**\n"
+            f"> **\\📇 Bot ID: `{self.client.user.id}`**\n"
             f"> **\\👑 Owner: `{await self.client.fetch_user(self.client.owner_id)}`**\n"
             f"> **\\🌐 Servers: `{len(self.client.guilds)}` Servers**\n"
             f"> **\\👥 Users: `{len(self.client.users)}` Users**\n"
